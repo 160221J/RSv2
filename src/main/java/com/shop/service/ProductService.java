@@ -6,7 +6,10 @@ import com.shop.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +32,19 @@ public class ProductService {
     // Search by name (autocomplete)
     public List<Product> searchByName(String query) {
         return productRepository.findByNameContainingIgnoreCase(query);
+    }
+
+    public List<Product> searchProducts(String query) {
+
+        List<Product> byName = productRepository.findByNameContainingIgnoreCase(query);
+        List<Product> byBarcode = productRepository.findByBarcodeContaining(query);
+
+        // merge results without duplicates
+        Set<Product> result = new LinkedHashSet<>();
+        result.addAll(byName);
+        result.addAll(byBarcode);
+
+        return new ArrayList<>(result);
     }
 
     // Add or update product
