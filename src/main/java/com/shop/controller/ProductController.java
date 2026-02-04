@@ -21,11 +21,11 @@ public class ProductController {
         return productService.searchByName("");
     }
 
-    // Search by name (autocomplete)
-    @GetMapping("/search")
-    public List<Product> searchProducts(@RequestParam String q) {
-        return productService.searchByName(q);
+     @GetMapping("/search")
+    public List<Product> search(@RequestParam String q) {
+        return productService.searchProducts(q);
     }
+
 
     // Find by barcode
     @GetMapping("/barcode/{barcode}")
